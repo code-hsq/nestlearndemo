@@ -6,22 +6,33 @@ import {
   Patch,
   Param,
   Delete,
+  UseFilters,
+  HttpException,
+  HttpStatus,
+  BadGatewayException,
 } from '@nestjs/common';
 import { Demo2Service } from './demo2.service';
 import { CreateDemo2Dto } from './dto/create-demo2.dto';
 import { UpdateDemo2Dto } from './dto/update-demo2.dto';
+import { BusinessErrorStatus, CustomErrorFilter, CustomException } from '../custom-error/custom-error.filter';
+
 
 @Controller('demo2')
 export class Demo2Controller {
-  constructor(private readonly demo2Service: Demo2Service) {}
+  constructor(private readonly demo2Service: Demo2Service) { }
 
   @Get('/hello')
   hello() {
     return '嗨，哥们。';
   }
+
+  // @UseFilters(CustomErrorFilter)
   @Get('/hello2')
   hello2() {
-    return '嗨，哥们。喝多了啊。';
+    // return '嗨，哥们，喝多了啊。';
+    // throw new Error('真牛')
+    throw new CustomException(BusinessErrorStatus.BE_DRUNK)
+    // throw new HttpException('牛哇', HttpStatus.BAD_GATEWAY)
   }
 
   @Post()
