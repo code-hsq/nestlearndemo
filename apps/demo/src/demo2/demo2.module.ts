@@ -11,7 +11,7 @@ import { LoggerMiddleware } from '../logger/logger.middleware';
 export class Demo2Module implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(ResponseMiddleware, LoggerMiddleware)
+      .apply( LoggerMiddleware,ResponseMiddleware)
       .forRoutes(Demo2Controller);
   }
 }
