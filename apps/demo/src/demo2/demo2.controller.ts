@@ -25,6 +25,7 @@ export class Demo2Controller {
   }
   @Post()
   create(@Body() createDemo2Dto: CreateDemo2Dto) {
+    // console.log(createDemo2Dto, createDemo2Dto instanceof CreateDemo2Dto);
     return createDemo2Dto;
   }
 
