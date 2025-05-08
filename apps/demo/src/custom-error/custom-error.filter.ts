@@ -2,11 +2,13 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpExceptionOpti
 
 
 export enum BusinessErrorStatus {
-  BE_DRUNK = 50001
+  BE_DRUNK = 50001,
+  NO_AUTH = 40300
 }
 
 const BusinessErrorStatusTxt: { [key: number]: string } = {
-  [BusinessErrorStatus.BE_DRUNK]: "喝醉了，进行不了业务了"
+  [BusinessErrorStatus.BE_DRUNK]: "喝醉了，进行不了业务了",
+  [BusinessErrorStatus.NO_AUTH]: "你不是小区业主，不能让你进。"
 }
 
 

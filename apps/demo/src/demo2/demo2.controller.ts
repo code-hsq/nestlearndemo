@@ -10,22 +10,30 @@ import {
   HttpException,
   HttpStatus,
   BadGatewayException,
+  UseGuards,
 } from '@nestjs/common';
 import { Demo2Service } from './demo2.service';
 import { CreateDemo2Dto } from './dto/create-demo2.dto';
 import { UpdateDemo2Dto } from './dto/update-demo2.dto';
 import { BusinessErrorStatus, CustomErrorFilter, CustomException } from '../custom-error/custom-error.filter';
+import { AuthGuard, useAuthGuard } from '../auth/auth.guard';
+import { UnNeedAuth, useUnNeedAuth } from '../un-need-auth/un-need-auth.decorator';
 
 
+// @UseGuards(AuthGuard)
+@useAuthGuard()
 @Controller('demo2')
 export class Demo2Controller {
   constructor(private readonly demo2Service: Demo2Service) { }
 
+  // @useUnNeedAuth(true)
+  @UnNeedAuth()
   @Get('/hello')
   hello() {
     return '嗨，哥们。';
   }
 
+  // @UseGuards(AuthGuard)
   // @UseFilters(CustomErrorFilter)
   @Get('/hello2')
   hello2() {
