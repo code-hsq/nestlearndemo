@@ -41,15 +41,18 @@ export class ReqInterceptor implements NestInterceptor {
     }
     const verify = (token) => {
       if (token == 'dmhsq1234') {
-        return true;
+        return {
+          userId: '1234',
+          userName: 'dmhsq',
+        };
       }
       return false;
     };
-    const check = verify(token);
-    if (!check) {
+    const user = verify(token);
+    if (!user) {
       return error('登录失效');
     }
-
+    request.user = user;
     return success();
   }
 }

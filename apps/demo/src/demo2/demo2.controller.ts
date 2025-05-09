@@ -29,6 +29,7 @@ import {
 import { ResInterceptor } from '../res/res.interceptor';
 import { ErrorInterceptor } from '../error/error.interceptor';
 import { ReqInterceptor } from '../req/req.interceptor';
+import { User, UseReqResErr } from '../user/user.decorator';
 
 // @UseGuards(AuthGuard)
 // @useAuthGuard()
@@ -38,11 +39,16 @@ export class Demo2Controller {
 
   // @useUnNeedAuth(true)
   // @UnNeedAuth()
-  @UseInterceptors(ResInterceptor)
-  @UseInterceptors(ReqInterceptor)
+  @UseReqResErr()
   @Get('/hello')
-  hello() {
-    return '嗨，哥们。';
+  hello(@User('userId') userId: string) {
+    return userId;
+  }
+
+  @UseReqResErr()
+  @Get('/welcome')
+  welcome(@User('userId') userId: string) {
+    return userId;
   }
 
   // @UseGuards(AuthGuard)
