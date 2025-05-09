@@ -8,7 +8,7 @@ import { AuthGuard } from './auth/auth.guard';
 async function bootstrap() {
   const app = await NestFactory.create(DemoModule);
   const port = process.env.port ?? 3000;
-  app.useGlobalFilters(new CustomErrorFilter())
+  // app.useGlobalFilters(new CustomErrorFilter());
   // app.useGlobalGuards(new AuthGuard())
   Logger.log(`listening on port ${port}`);
   // app.use(ResponseMiddleware);
