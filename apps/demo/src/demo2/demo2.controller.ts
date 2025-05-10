@@ -12,6 +12,10 @@ import {
   BadGatewayException,
   UseGuards,
   UseInterceptors,
+  ParseIntPipe,
+  ParseArrayPipe,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { Demo2Service } from './demo2.service';
 import { CreateDemo2Dto } from './dto/create-demo2.dto';
@@ -35,7 +39,7 @@ import { User, UseReqResErr } from '../user/user.decorator';
 // @useAuthGuard()
 @Controller('demo2')
 export class Demo2Controller {
-  constructor(private readonly demo2Service: Demo2Service) {}
+  constructor(private readonly demo2Service: Demo2Service) { }
 
   // @useUnNeedAuth(true)
   // @UnNeedAuth()
@@ -62,9 +66,9 @@ export class Demo2Controller {
     // throw new HttpException('牛哇', HttpStatus.BAD_GATEWAY);
   }
 
+  @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createDemo2Dto: CreateDemo2Dto) {
-    // console.log(createDemo2Dto, createDemo2Dto instanceof CreateDemo2Dto);
     return createDemo2Dto;
   }
 
@@ -74,8 +78,8 @@ export class Demo2Controller {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.demo2Service.findOne(+id);
+  findOne(@Param('id', ParseArrayPipe) id: Array<any>) {
+    return id;
   }
 
   @Patch(':id')
