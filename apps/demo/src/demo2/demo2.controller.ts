@@ -39,7 +39,12 @@ import { User, UseReqResErr } from '../user/user.decorator';
 // @useAuthGuard()
 @Controller('demo2')
 export class Demo2Controller {
-  constructor(private readonly demo2Service: Demo2Service) { }
+  constructor(private readonly demo2Service: Demo2Service) {}
+
+  @Get('/configs')
+  getConfigs() {
+    return this.demo2Service.getDemoConfig();
+  }
 
   // @useUnNeedAuth(true)
   // @UnNeedAuth()

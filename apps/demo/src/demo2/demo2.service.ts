@@ -1,9 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateDemo2Dto } from './dto/create-demo2.dto';
 import { UpdateDemo2Dto } from './dto/update-demo2.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class Demo2Service {
+  @Inject(ConfigService)
+  private configService: ConfigService;
+
+  getDemoConfig() {
+    return this.configService.get('demo2');
+  }
   create(createDemo2Dto: CreateDemo2Dto) {
     return 'This action adds a new demo2';
   }
