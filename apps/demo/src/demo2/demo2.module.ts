@@ -9,7 +9,7 @@ import DemoConfig from 'configs/demo.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [() => DemoConfig, Demo3Config, Demo2Config],
+      load: [() => DemoConfig],
     }),
   ],
   controllers: [Demo2Controller],

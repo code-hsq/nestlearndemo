@@ -1,4 +1,9 @@
-export default {
+// export default {
+//   name: 'demo',
+//   version: '1.0.0',
+// };
+
+module.exports = {
   name: 'demo',
   version: '1.0.0',
 };
