@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -17,7 +16,7 @@ datasource db {
 model User {
   no          Int      @unique @default(autoincrement())
   userId      String   @id @default(uuid())
-  userName    String
+  userName    String   @unique
   password    String
   nickname    String   @default("一只新用户")
   description String?  @db.VarChar(255)
