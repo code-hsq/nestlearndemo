@@ -22,4 +22,6 @@ model User {
   description String?  @db.VarChar(255)
   createTime  DateTime @default(now())
   updateTime  DateTime @updatedAt
+  wxId        String?
+  email       String?
 }

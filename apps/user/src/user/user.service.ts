@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from '@app/prisma';
+import { MongodbService, PrismaService } from '@app/prisma';
 import { scrypt, randomBytes } from 'crypto';
 import { promisify } from 'util';
 import { PageDto } from './dto/page.dto';
@@ -10,6 +10,10 @@ import { PageDto } from './dto/page.dto';
 export class UserService {
   @Inject(PrismaService)
   private prisma: PrismaService;
+
+  @Inject(MongodbService)
+  private mongodbService: MongodbService;
+
   private readonly keyLength = 32;
 
   async hashPassword(password: string): Promise<string> {
@@ -30,9 +34,15 @@ export class UserService {
   }
   async create(createUserDto: CreateUserDto) {
     createUserDto.password = await this.hashPassword(createUserDto.password);
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: createUserDto,
     });
+    await this.mongodbService.userRegister.create({
+      data: {
+        userId: user.userId,
+      },
+    });
+    return user;
   }
 
   findAll(page: PageDto) {
@@ -79,6 +89,14 @@ export class UserService {
     return this.prisma.user.delete({
       where: {
         userId: id,
+      },
+    });
+  }
+
+  async test() {
+    return await this.mongodbService.userRegister.deleteMany({
+      where: {
+        userId: '123s',
       },
     });
   }

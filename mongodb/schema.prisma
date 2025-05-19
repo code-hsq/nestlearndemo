@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../libs/prisma/mongodb"
+  output   = "../node_modules/@prisma/mongodb"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URL")
+}
+
+model UserRegister {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId String
+  time   DateTime @default(now())
+}
