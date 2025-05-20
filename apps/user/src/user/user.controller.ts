@@ -46,4 +46,9 @@ export class UserController {
   testMongo() {
     return this.userService.test();
   }
+
+  @Post('/login')
+  login(@Body() user: CreateUserDto) {
+    return this.userService.login(user);
+  }
 }

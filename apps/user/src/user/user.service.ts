@@ -5,6 +5,7 @@ import { MongodbService, PrismaService } from '@app/prisma';
 import { scrypt, randomBytes } from 'crypto';
 import { promisify } from 'util';
 import { PageDto } from './dto/page.dto';
+import { RedisService } from '@app/redis';
 
 @Injectable()
 export class UserService {
@@ -13,6 +14,9 @@ export class UserService {
 
   @Inject(MongodbService)
   private mongodbService: MongodbService;
+
+  @Inject(RedisService)
+  private redis: RedisService;
 
   private readonly keyLength = 32;
 
@@ -93,11 +97,27 @@ export class UserService {
     });
   }
 
-  async test() {
-    return await this.mongodbService.userRegister.deleteMany({
+  async login(user: CreateUserDto) {
+    const userData = await this.prisma.user.findUnique({
       where: {
-        userId: '123s',
+        userName: user.userName,
       },
     });
+    if (this.verifyPassword(user.password, userData.password)) {
+      const token = 'xxxxx';
+      const time = 360000;
+      await this.redis.set(`token_${userData.userId}`, token, { ttl: time });
+      return {
+        token,
+        time: new Date().getTime() + 360000,
+      };
+    }
+
+    return '用户名或者密码失效';
+  }
+
+  async test() {
+    // return this.redis.get('token_cc433108-224b-4eb1-925f-0262365b6f37');
+    return this.redis.del('token_cc433108-224b-4eb1-925f-0262365b6f37');
   }
 }
