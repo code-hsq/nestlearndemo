@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   Query,
+  HttpException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PageDto } from './dto/page.dto';
+import { UserErrorStatus, UserException } from '../app.error';
 
 @Controller('user')
 export class UserController {
@@ -44,7 +46,9 @@ export class UserController {
 
   @Post('/test')
   testMongo() {
-    return this.userService.test();
+    // return this.userService.test();
+    // throw new UserException(UserErrorStatus.USER_DISABLED);
+    throw new Error('大错特所');
   }
 
   @Post('/login')

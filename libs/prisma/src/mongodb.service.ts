@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/mongodb';
 export class MongodbService extends PrismaClient {
   async onModuleInit() {
     await this.$connect();
+    Logger.log('mongodb连接完成');
   }
   async onModuleDestroy() {
     await this.$disconnect();

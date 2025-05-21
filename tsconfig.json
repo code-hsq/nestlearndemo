@@ -35,6 +35,24 @@
       ],
       "@app/redis/*": [
         "libs/redis/src/*"
+      ],
+      "@app/interceptor": [
+        "libs/interceptor/src"
+      ],
+      "@app/interceptor/*": [
+        "libs/interceptor/src/*"
+      ],
+      "@app/filter": [
+        "libs/filter/src"
+      ],
+      "@app/filter/*": [
+        "libs/filter/src/*"
+      ],
+      "@app/logger": [
+        "libs/logger/src"
+      ],
+      "@app/logger/*": [
+        "libs/logger/src/*"
       ]
     }
   }

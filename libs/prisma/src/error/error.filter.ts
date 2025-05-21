@@ -1,3 +1,4 @@
+import { CustomException } from '@app/filter';
 import { ArgumentsHost, Catch, ExceptionFilter, Logger } from '@nestjs/common';
 import {
   PrismaClientKnownRequestError,
@@ -39,7 +40,7 @@ export class ErrorFilter<T> implements ExceptionFilter {
       code = exception.code;
       meta = exception.meta;
       Logger.error(getPrismaErrorMessage(code, JSON.stringify(meta)), reqDesc);
-      message = '数据库内部异常';
+      message = '数据库操作异常';
     }
 
     if (exception instanceof PrismaClientUnknownRequestError) {
@@ -56,6 +57,7 @@ export class ErrorFilter<T> implements ExceptionFilter {
     if (exception instanceof PrismaClientValidationError) {
       message = '数据结构异常';
     }
+    // throw new CustomException(code, message, 400);
 
     response.status(400).json({
       code: code,

@@ -4,6 +4,7 @@ import { DemoService } from './demo.service';
 import { Demo2Module } from './demo2/demo2.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Demo2Config from 'configs/demo2.config';
+import { LoggerModule } from '@app/logger';
 
 @Module({
   imports: [
@@ -11,6 +12,10 @@ import Demo2Config from 'configs/demo2.config';
     //   isGlobal: true,
     //   load: [Demo2Config],
     // }),
+    LoggerModule.forRoot({
+      saveDb: true,
+      appName: 'DEMO',
+    }),
     Demo2Module,
   ],
   controllers: [DemoController],

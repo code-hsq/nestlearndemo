@@ -14,3 +14,13 @@ model UserRegister {
   userId String
   time   DateTime @default(now())
 }
+
+model AppLog {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  appName String
+  level   String
+  message String
+  context String?
+  trace   String?
+  time    DateTime @default(now())
+}

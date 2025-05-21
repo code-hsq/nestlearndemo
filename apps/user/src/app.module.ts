@@ -4,10 +4,32 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { PrismaModule } from '@app/prisma';
 import { RedisModule } from '@app/redis';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { ErrorFilter } from '@app/filter';
+import { ResInterceptor } from '@app/interceptor';
+import { LoggerModule } from '@app/logger';
 
 @Module({
-  imports: [UserModule, PrismaModule, RedisModule],
+  imports: [
+    UserModule,
+    PrismaModule,
+    RedisModule,
+    LoggerModule.forRoot({
+      appName: '用户系统',
+      saveDb: true,
+    }),
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: ErrorFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResInterceptor,
+    },
+  ],
 })
 export class AppModule {}
