@@ -19,7 +19,7 @@ model AppLog {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   appName String
   level   String
-  message String
+  message Json
   context String?
   trace   String?
   time    DateTime @default(now())
