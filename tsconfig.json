@@ -53,6 +53,12 @@
       ],
       "@app/logger/*": [
         "libs/logger/src/*"
+      ],
+      "@app/auth": [
+        "libs/auth/src"
+      ],
+      "@app/auth/*": [
+        "libs/auth/src/*"
       ]
     }
   }

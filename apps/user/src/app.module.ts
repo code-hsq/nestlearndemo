@@ -8,6 +8,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ErrorFilter } from '@app/filter';
 import { ResInterceptor } from '@app/interceptor';
 import { LoggerModule } from '@app/logger';
+import { AuthModule } from '@app/auth';
 
 @Module({
   imports: [
@@ -16,8 +17,9 @@ import { LoggerModule } from '@app/logger';
     RedisModule,
     LoggerModule.forRoot({
       appName: '用户系统',
-      saveDb: true,
+      saveDb: false,
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

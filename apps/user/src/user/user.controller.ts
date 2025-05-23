@@ -14,7 +14,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PageDto } from './dto/page.dto';
 import { UserErrorStatus, UserException } from '../app.error';
+import { NeedVip, UnNeedAuth, useAuthGuard, User } from '@app/auth';
 
+@useAuthGuard()
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -44,13 +46,13 @@ export class UserController {
     return this.userService.remove(id);
   }
 
+  @NeedVip(1)
   @Post('/test')
-  testMongo() {
-    // return this.userService.test();
-    // throw new UserException(UserErrorStatus.USER_DISABLED);
-    throw new Error('大错特所');
+  testMongo(@User() user) {
+    return user;
   }
 
+  @UnNeedAuth()
   @Post('/login')
   login(@Body() user: CreateUserDto) {
     return this.userService.login(user);

@@ -6,6 +6,8 @@ import { scrypt, randomBytes } from 'crypto';
 import { promisify } from 'util';
 import { PageDto } from './dto/page.dto';
 import { RedisService } from '@app/redis';
+import { AuthService } from '@app/auth';
+import { UserErrorStatus, UserException } from '../app.error';
 
 @Injectable()
 export class UserService {
@@ -17,6 +19,9 @@ export class UserService {
 
   @Inject(RedisService)
   private redis: RedisService;
+
+  @Inject(AuthService)
+  private authService: AuthService;
 
   private readonly keyLength = 32;
 
@@ -104,20 +109,21 @@ export class UserService {
       },
     });
     if (this.verifyPassword(user.password, userData.password)) {
-      const token = 'xxxxx';
-      const time = 360000;
-      await this.redis.set(`token_${userData.userId}`, token, { ttl: time });
+      const loginMsg = await this.authService.login({
+        userId: userData.userId,
+      });
       return {
-        token,
-        time: new Date().getTime() + 360000,
+        ...loginMsg,
+        nickname: userData.nickname,
       };
     }
-
-    return '用户名或者密码失效';
+    throw new UserException(UserErrorStatus.LOGIN_PWD_ERROR);
   }
 
   async test() {
     // return this.redis.get('token_cc433108-224b-4eb1-925f-0262365b6f37');
-    return this.redis.del('token_cc433108-224b-4eb1-925f-0262365b6f37');
+    return this.authService.verify(
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjYzQzMzEwOC0yMjRiLTRlYjEtOTI1Zi0wMjYyMzY1YjZmMzciLCJpYXQiOjE3NDc5NzIyOTAsImV4cCI6MTc0ODU3NzA5MH0.EZPpArl8x0pLgxN8mkcgzJIXLR1-THpxvedVEAEOj0o',
+    );
   }
 }

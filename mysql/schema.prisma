@@ -24,4 +24,5 @@ model User {
   updateTime  DateTime @updatedAt
   wxId        String?
   email       String?
+  vip         Int      @default(0)
 }
