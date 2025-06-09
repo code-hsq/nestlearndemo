@@ -7,6 +7,10 @@ import {
 } from 'class-validator';
 
 export class CreateUserDto {
+  /**
+   * 用户名
+   * @example dmhsq
+   */
   @MaxLength(12, {
     message: '用户名长度不能超过12位',
   })

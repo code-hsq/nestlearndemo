@@ -41,6 +41,7 @@ export class UserService {
     )) as Buffer;
     return hash === generatedHash.toString('hex');
   }
+
   async create(createUserDto: CreateUserDto) {
     createUserDto.password = await this.hashPassword(createUserDto.password);
     const user = await this.prisma.user.create({
